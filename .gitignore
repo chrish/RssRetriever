@@ -216,4 +216,4 @@ project.lock.json
 
 
 *.db
-App.config
+RssPublisher/App.config
