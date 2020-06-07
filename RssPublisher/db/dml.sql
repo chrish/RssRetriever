@@ -13,7 +13,6 @@ INSERT INTO Source (name, url, active, priority) values ('The Register - DevOps'
 INSERT INTO Source (name, url, active, priority) values ('The Register - BOFH', 'https://www.theregister.co.uk/data_centre/bofh/headlines.atom', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('The Real News Network', 'https://therealnews.com/feed', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('ARRL', 'http://www.arrl.org/news/rss', 1, 1);
-INSERT INTO Source (name, url, active, priority) values ('Creative Commons', 'https://creativecommons.org/weblog/feed/rss', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('Alternet', 'http://www.alternet.org/home/feed', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('Wired', 'http://feeds.wired.com/wired/index', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('CBS - TechTalk', 'http://www.cbsnews.com/rss/tech_talk.rss', 1, 1);

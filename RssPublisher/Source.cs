@@ -101,7 +101,6 @@ namespace RssPublisher
 
         public List<Story> RetrieveAndPublish() {
             var l = Retrieve();
-            Console.WriteLine("Publishing feeds.");
             foreach (var f in subscribers) {
                 foreach (Story s in l) {
                     f.OnNext(s);
@@ -140,48 +139,122 @@ namespace RssPublisher
             }
         }
 
+        public bool IsRss(XDocument feed) {
+            var elements = feed.Root.Elements();
+
+            if (feed.Root.Elements("channel").Any())
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+
+        public bool IsAtom(XDocument feed)
+        {
+            XNamespace ns = feed.Root.Attribute("xmlns").Value;
+            
+            if (feed.Root.Elements(ns + "entry").Any())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected List<Story> GetStoriesFromRss(XDocument feed) {
+            var items = from XElement i in feed.Root.Elements("channel").Elements() where i.Name == "item" select i;
+            int skipped = 0;
+            List<Story> stories = new List<Story>();
+
+            foreach (var item in items)
+            {
+                Story story = new Story();
+                story.Title = item.Element("title").Value;
+
+
+                story.Description = (string)item.Element("description") ?? "";
+                story.Url = item.Element("link").Value;
+                int saved = SaveStory(story);
+
+                if (saved > 0)
+                {
+                    Console.WriteLine("Getting \"" + story.Title + "\"");
+                    stories.Add(story);
+                }
+                else
+                {
+                    skipped++;
+                }
+            }
+
+            Console.WriteLine("Skipped " + skipped + " (rss) stories.");
+            return stories;
+        }
+
+        protected List<Story> GetStoriesFromAtom(XDocument feed)
+        {
+            XNamespace ns = feed.Root.Attribute("xmlns").Value;
+            var items = from XElement i in feed.Root.Elements(ns + "entry") select i;
+            int skipped = 0;
+            List<Story> stories = new List<Story>();
+
+            foreach (var item in items)
+            {
+                Story story = new Story();
+
+                story.Title = item.Element(ns+"title").Value;
+                story.Description = (string)item.Element(ns + "content") ?? "";
+                story.Url = item.Element(ns + "link").Attribute("href").Value;
+                
+                int saved = SaveStory(story);
+
+                if (saved > 0)
+                {
+                    Console.WriteLine("Getting \"" + story.Title + "\"");
+                    stories.Add(story);
+                }
+                else
+                {
+                    skipped++;
+                }
+            }
+
+            Console.WriteLine("Skipped " + skipped + " (atom) stories.");
+            return stories;
+        }
 
         public List<Story> Retrieve()
         {
             try
             {
-                Console.WriteLine("Fetching " + Url);
-                XDocument rssFeed = XDocument.Load(Url);
+                XDocument feed = XDocument.Load(Url);
                 List<Story> stories = new List<Story>();
+                 
 
-                var rssTtl = (from XElement i in rssFeed.Root.Elements("channel").Elements() where i.Name == "ttl" select i).FirstOrDefault().Value;
 
-                if (rssTtl != null)
-                {
-                    Ttl = Convert.ToInt32(rssTtl) * 60;
+                if (IsRss(feed) && feed.Root.Elements("channel").Elements("ttl").Any()) {
+                    Ttl = Convert.ToInt32(feed.Root.Elements("channel").Elements("ttl").FirstOrDefault().Value) * 60;
                 }
 
                 int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
                 if (LastFetched + Ttl < now)
                 {
-
-                    var items = from XElement i in rssFeed.Root.Elements("channel").Elements() where i.Name == "item" select i;
-
-                    foreach (var item in items)
+                    if (IsRss(feed))
                     {
-                        Story story = new Story();
-                        story.Title = item.Element("title").Value;
-
-
-                        story.Description = (string)item.Element("description") ?? "";
-                        story.Url = item.Element("link").Value;
-                        int saved = SaveStory(story);
-
-                        if (saved > 0)
-                        {
-                            Console.WriteLine("Got \"" + story.Title + "\"");
-                            stories.Add(story);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Ignored \"" + story.Title + "\"");
-                        }
+                        stories = GetStoriesFromRss(feed);
+                    }
+                    else if (IsAtom(feed))
+                    {
+                        stories = GetStoriesFromAtom(feed);
+                    }
+                    else {
+                        this.Log("Cannot determine format for " + this.Url);
                     }
 
                     LastFetched = Convert.ToInt32((DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
