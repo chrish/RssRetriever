@@ -55,7 +55,6 @@ namespace RssPublisher
 
             foreach (var s in integrationsFromConfig)
             {
-                //IPublisher ipb = (IPublisher)Activator.CreateInstance(Type.GetType(s));
                 subscribers.Add(new Slack());
             }
         }
@@ -192,7 +191,7 @@ namespace RssPublisher
                 }
             }
 
-            Console.WriteLine("Skipped " + skipped + " (rss) stories.");
+            Console.WriteLine("Skipped " + skipped + " (rss) stories from " + this.Name);
             return stories;
         }
 

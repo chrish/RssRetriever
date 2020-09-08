@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SQLite;
 using System.IO;
+using System.Reflection;
 
 namespace RssPublisher
 {
     public class DbBroker
     {
         protected string ConnectionString;
+
+        protected Configuration config;
         public DbBroker() {
-            ConnectionString = ConfigurationManager.AppSettings["connectionString"];
+
+            var dllName = Assembly.GetExecutingAssembly().GetName().Name;
+            var dllPath = Assembly.GetExecutingAssembly().Location;
+            config = ConfigurationManager.OpenExeConfiguration(dllPath);
+            ConnectionString = config.AppSettings.Settings["connectionString"].Value;
             
+
             InitializeDatabaseIfNotExisting();
         }
 

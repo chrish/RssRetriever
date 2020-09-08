@@ -18,7 +18,7 @@ INSERT INTO Source (name, url, active, priority) values ('Wired', 'http://feeds.
 INSERT INTO Source (name, url, active, priority) values ('CBS - TechTalk', 'http://www.cbsnews.com/rss/tech_talk.rss', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('ABC - Tech', 'http://feeds.abcnews.com/abcnews/technologyheadlines', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('Washington Times - Tech', 'http://www.washingtontimes.com/rss/headlines/culture/technology/', 1, 1);
-INSERT INTO Source (name, url, active, priority) values ('NBC - Tech/Science', 'http://rss.msnbc.msn.com/id/3032117/device/rss/rss.xml', 1, 1);
+INSERT INTO Source (name, url, active, priority) values ('NBC - Tech/Science', 'http://rss.msnbc.msn.com/id/3032117/device/rss/rss.xml', 0, 1);
 INSERT INTO Source (name, url, active, priority) values ('freenode', 'https://freenode.net/news/rss.xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('GRC - Blog', 'http://feeds.feedburner.com/GibsonResearchNews', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('The Guardian - UK', 'https://feeds.theguardian.com/theguardian/uk/rss', 1, 1);
@@ -27,11 +27,11 @@ INSERT INTO Source (name, url, active, priority) values ('techdirt', 'http://fee
 INSERT INTO Source (name, url, active, priority) values ('Sky News - Technology', 'http://feeds.skynews.com/feeds/rss/technology.xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('Sky News - Strange News', 'http://feeds.skynews.com/feeds/rss/strange.xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('ISC', 'http://isc.sans.edu/rssfeed.xml', 1, 1);
-INSERT INTO Source (name, url, active, priority) values ('IC3.gov News', 'http://www.ic3.gov/rss/news.xml', 1, 1);
+INSERT INTO Source (name, url, active, priority) values ('IC3.gov News', 'http://www.ic3.gov/rss/news.xml', 0, 1);
 INSERT INTO Source (name, url, active, priority) values ('Smithsonian Science', 'http://feeds.feedburner.com/smithsonianmag/science-nature?format=xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('The Atlantic - WireSvc', 'http://feeds.feedburner.com/TheAtlanticWire?format=xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('The Atlantic - Politics', 'http://feeds.feedburner.com/AtlanticPoliticsChannel?format=xml', 1, 1);
-INSERT INTO Source (name, url, active, priority) values ('XKCD What-If', 'https://what-if.xkcd.com/feed.atom', 1, 1);
+INSERT INTO Source (name, url, active, priority) values ('XKCD What-If', 'https://what-if.xkcd.com/feed.atom', 0, 1);
 INSERT INTO Source (name, url, active, priority) values ('The Economist - Tech', 'https://www.economist.com/science-and-technology/rss.xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('Telegraph - Technology', 'https://www.telegraph.co.uk/technology/rss.xml', 1, 1);
 INSERT INTO Source (name, url, active, priority) values ('Wall Street Journal - Tech', 'https://feeds.a.dj.com/rss/RSSWSJD.xml', 1, 1);
