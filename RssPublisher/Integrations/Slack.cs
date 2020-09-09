@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+
 namespace RssPublisher.Integrations
 {
     public class Slack : IPublisher
@@ -31,9 +32,11 @@ namespace RssPublisher.Integrations
 
         public async Task<HttpResponseMessage> PublishMessage(string message, string url)
         {
+            string slackToken = Program.GetKeyVaultAuth("slack-token");
+
             var content = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("token", ConfigurationManager.AppSettings["slackToken"]),
+                new KeyValuePair<string, string>("token", slackToken),
                 new KeyValuePair<string, string>("channel", ConfigurationManager.AppSettings["slackChannel"]),
                 new KeyValuePair<string, string>("unfurl_links", "false"),
                 new KeyValuePair<string, string>("unfurl_media", "false"),

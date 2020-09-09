@@ -13,6 +13,7 @@ namespace RssPublisherTest
         [TestMethod]
         public void TestSlack()
         {
+            
             Slack s = new Slack();
 
             var t = s.PublishMessage("This is a test message", "https://example.org");
